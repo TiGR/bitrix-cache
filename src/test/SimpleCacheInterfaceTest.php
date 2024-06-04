@@ -3,6 +3,7 @@
 namespace WebArch\BitrixCache\Test;
 
 use Exception;
+use TypeError;
 use WebArch\BitrixCache\Cache;
 use WebArch\BitrixCache\Enum\ErrorCode;
 use WebArch\BitrixCache\Exception\InvalidArgumentException;
@@ -514,8 +515,7 @@ class SimpleCacheInterfaceTest extends CacheFixture
     {
         $this->setUpTaggedCacheIsNeverCalled();
         $this->setUpBitrixCacheIsNeverCalled();
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionCode(ErrorCode::KEYS_IS_NOT_ARRAY);
+        $this->expectException(TypeError::class);
 
         /**
          * @noinspection PhpParamsInspection

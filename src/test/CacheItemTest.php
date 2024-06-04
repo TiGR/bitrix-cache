@@ -6,6 +6,7 @@ use DateInterval;
 use DateTimeImmutable;
 use Psr\Cache\CacheException;
 use RuntimeException;
+use TypeError;
 use WebArch\BitrixCache\CacheItem;
 use WebArch\BitrixCache\Enum\ErrorCode;
 use WebArch\BitrixCache\Exception\InvalidArgumentException;
@@ -61,8 +62,7 @@ class CacheItemTest extends CacheItemFixture
      */
     public function testExpiresAtInvalid(): void
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionCode(ErrorCode::INVALID_EXPIRATION_DATE);
+        $this->expectException(TypeError::class);
         /**
          * @noinspection PhpParamsInspection
          * @phpstan-ignore-next-line
@@ -112,8 +112,7 @@ class CacheItemTest extends CacheItemFixture
      */
     public function testExpiresAfterInvalid(): void
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionCode(ErrorCode::INVALID_EXPIRATION);
+        $this->expectException(TypeError::class);
         /** @phpstan-ignore-next-line */
         $this->cacheItem->expiresAfter('invalid!');
     }
@@ -159,7 +158,6 @@ class CacheItemTest extends CacheItemFixture
     }
 
     /**
-     * @phpstan-ignore-next-line
      * @throws CacheException
      * @throws \Psr\Cache\InvalidArgumentException
      * @return void

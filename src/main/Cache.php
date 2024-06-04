@@ -206,7 +206,7 @@ class Cache implements CacheInterface
      * @return mixed Значение из кеша или $default в случае "промаха".
      * @noinspection PhpMissingParamTypeInspection
      */
-    public function get($key, $default = null)
+    public function get(string $key, mixed $default = null): mixed
     {
         $this->setKey($key);
         $initCache = $this->getBitrixCache()->initCache(
@@ -235,7 +235,7 @@ class Cache implements CacheInterface
      * @noinspection PhpMissingParamTypeInspection
      * @noinspection PhpMissingReturnTypeInspection
      */
-    public function set($key, $value, $ttl = null)
+    public function set(string $key, mixed $value, null|int|\DateInterval $ttl = null): bool
     {
         $this->setKey($key)
              ->setMixedTTL($ttl);
@@ -270,7 +270,7 @@ class Cache implements CacheInterface
      * @noinspection PhpMissingParamTypeInspection
      * @noinspection PhpMissingReturnTypeInspection
      */
-    public function delete($key)
+    public function delete(string $key): bool
     {
         $this->setKey($key);
         $initCache = $this->getBitrixCache()->initCache(
@@ -295,7 +295,7 @@ class Cache implements CacheInterface
      * @return bool true при успешной очистке или false при ошибке.
      * @noinspection PhpMissingReturnTypeInspection
      */
-    public function clear()
+    public function clear(): bool
     {
         $this->getBitrixCache()
              ->cleanDir($this->getPath(), $this->getBaseDir());
@@ -314,7 +314,7 @@ class Cache implements CacheInterface
      * @noinspection PhpMissingParamTypeInspection
      * @noinspection PhpMissingReturnTypeInspection
      */
-    public function getMultiple($keys, $default = null)
+    public function getMultiple(iterable $keys, mixed $default = null): iterable
     {
         $this->assertKeys($keys, 'Keys');
 
@@ -337,7 +337,7 @@ class Cache implements CacheInterface
      * @noinspection PhpMissingParamTypeInspection
      * @noinspection PhpMissingReturnTypeInspection
      */
-    public function setMultiple($values, $ttl = null)
+    public function setMultiple(iterable $values, null|int|\DateInterval $ttl = null): bool
     {
         $this->assertKeys($values, 'Values');
         $result = 1;
@@ -358,7 +358,7 @@ class Cache implements CacheInterface
      * @noinspection PhpMissingParamTypeInspection
      * @noinspection PhpMissingReturnTypeInspection
      */
-    public function deleteMultiple($keys)
+    public function deleteMultiple(iterable $keys): bool
     {
         $this->assertKeys($keys, 'Keys');
         $result = 1;
@@ -385,7 +385,7 @@ class Cache implements CacheInterface
      * @noinspection PhpMissingParamTypeInspection
      * @noinspection PhpMissingReturnTypeInspection
      */
-    public function has($key)
+    public function has(string $key): bool
     {
         $this->setKey($key);
 
