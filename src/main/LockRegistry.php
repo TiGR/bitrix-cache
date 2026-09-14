@@ -79,7 +79,6 @@ final class LockRegistry
      * @param null|Closure $setMetadata
      * @param null|LoggerInterface $logger
      *
-     * @phpstan-ignore-next-line
      * @throws PsrCacheInvalidArgumentException
      * @throws Exception
      * @return null|mixed

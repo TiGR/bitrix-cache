@@ -117,11 +117,8 @@ class AntiStampedeCacheAdapter implements CacheInterface, CacheItemPoolInterface
 
     /**
      * @inheritDoc
-     *
-     * @return bool
-     * @noinspection PhpMissingReturnTypeInspection
      */
-    public function commit()
+    public function commit(): bool
     {
         $ok = true;
         $byLifetime = $this->mergeByLifetime;
@@ -140,8 +137,8 @@ class AntiStampedeCacheAdapter implements CacheInterface, CacheItemPoolInterface
             if (true === $e) {
                 continue;
             }
-            if (is_array($e) || 1 === count($values)) {
-                foreach (is_array($e) ? $e : array_keys($values) as $id) {
+            if (1 === count($values)) {
+                foreach (array_keys($values) as $id) {
                     $ok = false;
                     $v = $values[$id];
                     $type = get_debug_type($v);
@@ -154,7 +151,7 @@ class AntiStampedeCacheAdapter implements CacheInterface, CacheItemPoolInterface
                         $this->logger,
                         $message,
                         [
-                            'key'           => substr($id, strlen($this->namespace)),
+                            'key'           => substr($id, strlen($this->namespace ?? '')),
                             'exception'     => $e instanceof Exception ? $e : null,
                             'cache-adapter' => get_debug_type($this),
                         ]
@@ -209,9 +206,8 @@ class AntiStampedeCacheAdapter implements CacheInterface, CacheItemPoolInterface
      * @param array<string, mixed> $values
      *
      * @return bool
-     * @noinspection PhpMissingReturnTypeInspection
      */
-    protected function doSave(array $values, int $lifetime)
+    protected function doSave(array $values, int $lifetime): bool
     {
         $result = 1;
         foreach ($values as $key => $value) {
@@ -234,9 +230,8 @@ class AntiStampedeCacheAdapter implements CacheInterface, CacheItemPoolInterface
      * @inheritDoc
      *
      * @return bool
-     * @noinspection PhpMissingReturnTypeInspection
      */
-    protected function doHave(string $id)
+    protected function doHave(string $id): bool
     {
         return $this->getCache()->has($id);
     }
@@ -247,9 +242,8 @@ class AntiStampedeCacheAdapter implements CacheInterface, CacheItemPoolInterface
      * @param array<string> $ids
      *
      * @return array<string, mixed>
-     * @noinspection PhpMissingReturnTypeInspection
      */
-    protected function doFetch(array $ids)
+    protected function doFetch(array $ids): array
     {
         $result = [];
         foreach ($this->getCache()->getMultiple($ids, self::CACHE_MISS_VALUE) as $key => $value) {
@@ -268,9 +262,8 @@ class AntiStampedeCacheAdapter implements CacheInterface, CacheItemPoolInterface
      * @param array<string> $ids
      *
      * @return bool
-     * @noinspection PhpMissingReturnTypeInspection
      */
-    protected function doDelete(array $ids)
+    protected function doDelete(array $ids): bool
     {
         return $this->getCache()->deleteMultiple($ids);
     }
@@ -279,16 +272,12 @@ class AntiStampedeCacheAdapter implements CacheInterface, CacheItemPoolInterface
      * @inheritDoc
      *
      * @return bool
-     * @noinspection PhpMissingReturnTypeInspection
      */
-    protected function doClear(string $namespace)
+    protected function doClear(string $namespace): bool
     {
         return $this->getCache()->clear();
     }
 
-    /**
-     * @return Cache
-     */
     protected function getCache(): Cache
     {
         return Cache::create()

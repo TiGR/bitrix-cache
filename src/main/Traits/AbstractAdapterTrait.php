@@ -124,7 +124,7 @@ trait AbstractAdapterTrait
      * @return bool
      * @noinspection PhpMissingReturnTypeInspection
      */
-    public function hasItem($key)
+    public function hasItem(string $key): bool
     {
         $id = $this->getId($key);
 
@@ -151,7 +151,7 @@ trait AbstractAdapterTrait
      * @return bool
      * @noinspection PhpMissingReturnTypeInspection
      */
-    public function clear(string $prefix = '')
+    public function clear(string $prefix = ''): bool
     {
         $this->deferred = [];
         if ($cleared = $this->versioningIsEnabled) {
@@ -195,7 +195,7 @@ trait AbstractAdapterTrait
      * @return bool
      * @noinspection PhpMissingReturnTypeInspection
      */
-    public function deleteItem($key)
+    public function deleteItem(string $key): bool
     {
         return $this->deleteItems([$key]);
     }
@@ -206,7 +206,7 @@ trait AbstractAdapterTrait
      * @return bool
      * @noinspection PhpMissingReturnTypeInspection
      */
-    public function deleteItems(array $keys)
+    public function deleteItems(array $keys): bool
     {
         $ids = [];
 
@@ -248,7 +248,7 @@ trait AbstractAdapterTrait
     /**
      * {@inheritdoc}
      */
-    public function getItem($key)
+    public function getItem(string $key): CacheItemInterface
     {
         if ($this->deferred) {
             $this->commit();
@@ -279,9 +279,8 @@ trait AbstractAdapterTrait
     /**
      * {@inheritdoc}
      * @return iterable<string, mixed>
-     * @noinspection PhpMissingReturnTypeInspection
      */
-    public function getItems(array $keys = [])
+    public function getItems(array $keys = []): iterable
     {
         if ($this->deferred) {
             $this->commit();
@@ -312,7 +311,7 @@ trait AbstractAdapterTrait
      * @return bool
      * @noinspection PhpMissingReturnTypeInspection
      */
-    public function save(CacheItemInterface $item)
+    public function save(CacheItemInterface $item): bool
     {
         if (!$item instanceof CacheItem) {
             return false;
@@ -342,7 +341,7 @@ trait AbstractAdapterTrait
      * @return bool
      * @noinspection PhpMissingReturnTypeInspection
      */
-    public function saveDeferred(CacheItemInterface $item)
+    public function saveDeferred(CacheItemInterface $item): bool
     {
         if (!$item instanceof CacheItem) {
             return false;
@@ -387,7 +386,7 @@ trait AbstractAdapterTrait
         $this->ids = [];
     }
 
-    public function __sleep()
+    public function __sleep(): array
     {
         throw new BadMethodCallException('Cannot serialize ' . __CLASS__);
     }
